@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import tensorflow.keras.applications as kapp
 import tensorflow.keras.preprocessing.image as kimage
 import tensorflow.keras.models as kmodels
 import numpy as np
 import tensorflow.keras.utils as utils
+from anchor import *
 
 app = Flask(__name__)
 
@@ -19,20 +20,34 @@ def get_image_feature(img_path):
     features = features.flatten()
     return features
 
-@app.route("/similarity_test", methods=["POST"])
-def similarity_test():
-    
+@app.route("/")
+def similarity_image():
+    q, p_path, h_path, sim = random_sim()
+    return render_template('sim_img.html', q=q, p_path=p_path, h_path=h_path, sim=sim)
+
+@app.route("/sim_test", methods=["POST"])
+def sim_test():
+    p_path = str(request.form['p_path'])
+    sim = float(request.form['sim'])
+    return render_template('sim_test.html', p_path=p_path, sim=sim)
 
 @app.route("/image-similarity", methods=["POST"])
 def image_similarity():
-    img1_path = request.json['img1_path']
-    img2_path = request.json['img2_path']
+    f = request.files['file']
+    img_path = 'D:/k-digital/source/web_mk2/similarity/static/img/similarity/img.jpg'
+    f.save(img_path)
+    p_path = str(request.form['p_path'])
+    sim = float(request.form['sim'])
 
-    features1 = get_image_feature(img1_path)
-    features2 = get_image_feature(img2_path)
+    features1 = get_image_feature(p_path)
+    features2 = get_image_feature(img_path)
 
     cosine_similarity = np.dot(features1, features2) / (np.linalg.norm(features1) * np.linalg.norm(features2))
-    return jsonify({"similarity": cosine_similarity})
+    print(cosine_similarity)
+    if cosine_similarity >= sim:
+        return render_template('success.html')
+    else:
+        return render_template('fail.html')
 
 if __name__ == "__main__":
     app.run()
