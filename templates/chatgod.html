@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas Image Upload</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+    <br>
+    <button id="submitBtn">Submit</button>
+    <br>
+    <form id="form" method="post" action="/image-similarity" enctype="multipart/form-data" style="display: none">
+      <input type="hidden" name="p_path" value="p_path">
+      <input type="hidden" name="sim" value="0.8">
+      <input type="file" name="file" id="file">
+    </form>
+  </body>
+  <script>
+    const canvas = document.getElementById("myCanvas");
+    const context = canvas.getContext("2d");
+    context.fillStyle = "white";
+    context.fillRect(0, 0, 500, 500);
+
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.addEventListener("click", function () {
+      const dataURL = canvas.toDataURL();
+      const formData = new FormData();
+      formData.append("file", dataURLToFile(dataURL, "image.png"));
+      const form = document.getElementById("form");
+      form.submit();
+    });
+
+    function dataURLToFile(dataURL, fileName) {
+      const byteString = atob(dataURL.split(",")[1]);
+      const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new File([ab], fileName, { type: mimeString });
+    }
+  </script>
+</html>
