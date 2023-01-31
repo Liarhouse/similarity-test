@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template
-import tensorflow.keras.applications as kapp
-import tensorflow.keras.preprocessing.image as kimage
-import tensorflow.keras.models as kmodels
+import keras.applications as kapp
+import keras.preprocessing.image as kimage
+import keras.models as kmodels
 import numpy as np
-import tensorflow.keras.utils as utils
+import keras.utils as utils
 from anchor import *
 
 app = Flask(__name__)
@@ -48,6 +48,13 @@ def image_similarity():
         return render_template('success.html')
     else:
         return render_template('fail.html')
+
+# @app.route("/img_show", methods=["POST"])
+# def img_show():
+#     f = request.files['file']
+#     img_path = 'D:/k-digital/source/web_mk2/similarity/static/img/similarity/img.jpg'
+#     f.save(img_path)
+#     return render_template('img_show.html', f=f)
 
 if __name__ == "__main__":
     app.run()
