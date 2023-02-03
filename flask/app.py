@@ -34,7 +34,7 @@ def sim_test():
 @app.route("/image-similarity", methods=["POST"])
 def image_similarity():
     f = request.files['file']
-    img_path = 'D:/k-digital/source/web_mk2/similarity/static/img/similarity/img.jpg'
+    img_path = 'static/img/similarity/img.jpg'
     f.save(img_path)
     p_path = str(request.form['p_path'])
     sim = float(request.form['sim'])
@@ -57,4 +57,4 @@ def image_similarity():
 #     return render_template('img_show.html', f=f)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8888)
+    app.run(host='0.0.0.0')
