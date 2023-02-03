@@ -1,10 +1,10 @@
 import random
 
-anchor = {'candy':["D:/k-digital/source/web_mk2/similarity/static/img/similarity/anchor/candy.jpg", '/static/img/similarity/anchor/candy.jpg', 0.35],\
-    'table':["D:/k-digital/source/web_mk2/similarity/static/img/similarity/anchor/table.jpg", "/static/img/similarity/anchor/table.jpg", 0.42],\
-        'chair':["D:/k-digital/source/web_mk2/similarity/static/img/similarity/anchor/chair.jpg", "/static/img/similarity/anchor/chair.jpg", 0.32],\
-            'stick':["D:/k-digital/source/web_mk2/similarity/static/img/similarity/anchor/stick.jpg", "/static/img/similarity/anchor/stick.jpg", 0.4],\
-                'fan':["D:/k-digital/source/web_mk2/similarity/static/img/similarity/anchor/fan.png", "/static/img/similarity/anchor/fan.png", 0.33]}
+anchor = {'candy':["static/img/similarity/anchor/candy.jpg", '/static/img/similarity/anchor/candy.jpg', 0.35],\
+    'table':["static/img/similarity/anchor/table.jpg", "/static/img/similarity/anchor/table.jpg", 0.42],\
+        'chair':["static/img/similarity/anchor/chair.jpg", "/static/img/similarity/anchor/chair.jpg", 0.32],\
+            'stick':["static/img/similarity/anchor/stick.jpg", "/static/img/similarity/anchor/stick.jpg", 0.4],\
+                'fan':["static/img/similarity/anchor/fan.png", "/static/img/similarity/anchor/fan.png", 0.33]}
 quiz = ['candy', 'table', 'chair', 'stick', 'fan']
 
 def random_sim():
