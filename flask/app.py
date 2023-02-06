@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 vgg_model = kapp.VGG16(weights='imagenet', include_top=False)
 model = kmodels.Model(inputs=vgg_model.input, outputs=vgg_model.get_layer('block5_pool').output)
+anch = ''
 
 def get_image_feature(img_path):
     img = utils.load_img(img_path, target_size=(224, 224))
@@ -23,21 +24,23 @@ def get_image_feature(img_path):
 @app.route("/")
 def similarity_image():
     q, p_path, h_path, sim = random_sim()
-    return render_template('sim_img.html', q=q, p_path=p_path, h_path=h_path, sim=sim)
+    global anch
+    anch = q
+    return render_template('sim_img.html', h_path=h_path)
 
-@app.route("/sim_test", methods=["POST"])
+@app.route("/sim_test", methods=["GET"])
 def sim_test():
-    p_path = str(request.form['p_path'])
-    sim = float(request.form['sim'])
-    return render_template('sim_test.html', p_path=p_path, sim=sim)
+    return render_template('sim_test.html')
 
 @app.route("/image-similarity", methods=["POST"])
 def image_similarity():
     f = request.files['file']
-    img_path = 'static/img/similarity/img.jpg'
+    img_path = 'flask\static\img\similarity\img.jpg'
     f.save(img_path)
-    p_path = str(request.form['p_path'])
-    sim = float(request.form['sim'])
+    global anch
+    global anchor
+    p_path = anchor[anch][0]
+    sim = anchor[anch][2]
 
     features1 = get_image_feature(p_path)
     features2 = get_image_feature(img_path)
@@ -57,4 +60,4 @@ def image_similarity():
 #     return render_template('img_show.html', f=f)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
