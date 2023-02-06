@@ -18,5 +18,5 @@ services:
             - "8090:8090"
         volumes:
           - type: bind
-            source: /mnt/c/nginx-cache
+            source: /c/nginx-cache
             target: /nginx-cache
